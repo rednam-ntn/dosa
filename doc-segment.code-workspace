@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"name": "server",
+			"path": "server"
+		},
+		{
+			"name": "DocParser",
+			"path": "DocParser"
+		},
+		{
+			"name": "Mask_RCNN",
+			"path": "Mask_RCNN"
+		},
+		{
+			"name": "PaddleOCR",
+			"path": "PaddleOCR"
+		},
+		{
+			"name": "root",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true
+		},
+		"python.linting.flake8Enabled": true,
+		"python.linting.enabled": true
+	}
+}

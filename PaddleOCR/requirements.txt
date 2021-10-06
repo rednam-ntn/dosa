@@ -1,0 +1,12 @@
+lmdb
+lxml
+numpy
+opencv-contrib-python==4.4.0.46
+openpyxl
+paddlepaddle -i https://mirror.baidu.com/pypi/simple
+premailer
+pyclipper
+python-Levenshtein
+shapely
+tqdm
+visualdl

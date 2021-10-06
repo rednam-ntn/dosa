@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "app"
+version = "0.0.2"
+description = "Doc Segmentation"
+authors = ["RedNam"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+uvicorn = "~0.11.3"
+fastapi = "~0.68.0"
+python-multipart = "~0.0.5"
+pydantic = {extras = ["email", "dotenv"], version = "~1.8.1"}
+Jinja2 = "~3.0.1"
+tenacity = "~8.0.1"
+httpx = "~0.18.1"
+aiofiles = "~0.7.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.2"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+
+[tool.black]
+line-length = 120
+target-version = ['py37']
