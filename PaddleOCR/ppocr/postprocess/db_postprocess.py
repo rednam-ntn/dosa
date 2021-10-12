@@ -14,10 +14,13 @@
 
 from __future__ import absolute_import, division, print_function
 
+from datetime import datetime as dt
+
 import cv2
 import numpy as np
 import paddle
 import pyclipper
+from matplotlib import pyplot as plt
 from shapely.geometry import Polygon
 
 
@@ -44,7 +47,7 @@ class DBPostProcess(object):
         self.score_mode = score_mode
         assert score_mode in ["slow", "fast"], "Score mode must be in [slow, fast] but got: {}".format(score_mode)
 
-        self.dilation_kernel = None if not use_dilation else np.array([[1, 1], [1, 1]])
+        self.dilation_kernel = None if not use_dilation else np.array([[3, 3], [3, 3]])
 
     def boxes_from_bitmap(self, pred, _bitmap, dest_width, dest_height):
         """
@@ -172,6 +175,9 @@ class DBPostProcess(object):
                 mask = cv2.dilate(np.array(segmentation[batch_index]).astype(np.uint8), self.dilation_kernel)
             else:
                 mask = segmentation[batch_index]
+
+            # plt.imsave(f"{dt.now().timestamp()}.png", mask)
+
             boxes, scores = self.boxes_from_bitmap(pred[batch_index], mask, src_w, src_h)
 
             boxes_batch.append({"points": boxes})
