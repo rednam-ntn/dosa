@@ -350,8 +350,8 @@ class PaddleOCR(predict_system.TextSystem):
         if isinstance(img, list) and det == True:
             logger.error("When input a list of images, det must be false")
             exit(0)
-        if cls == True and self.use_angle_cls == False:
-            logger.warning(
+        if cls and not self.use_angle_cls:
+            logger.debug(
                 "Since the angle classifier is not initialized, the angle classifier will not be uesd during the forward process"
             )
 
@@ -378,6 +378,11 @@ class PaddleOCR(predict_system.TextSystem):
             dt_boxes, elapse = self.text_detector(img)
             if dt_boxes is None:
                 return None
+
+            # Detect Bitmap only
+            if isinstance(dt_boxes, dict) and "maps" in dt_boxes and "shapes" in dt_boxes:
+                return dt_boxes
+
             return [box.tolist() for box in dt_boxes]
         else:
             if not isinstance(img, list):

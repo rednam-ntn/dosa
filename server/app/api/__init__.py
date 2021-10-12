@@ -15,5 +15,11 @@ async def doc_parser_api(*, img_in: ImageInput):
 
 @router.post("/detect-text")
 async def paddle_api(*, img_in: ImageInput):
-    print("requesting `paddle_api`")
+    print("requesting `paddle_text_api`")
     return await paddle.detect_text(img_in)
+
+
+@router.post("/detect-bitmap")
+async def paddle_bitmap_api(*, img_in: ImageInput):
+    print("requesting `paddle_bitmap_api`")
+    return await paddle.db_detect_bitmap(img_in)
