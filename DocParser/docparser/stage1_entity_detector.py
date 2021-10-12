@@ -1,5 +1,6 @@
 import logging.config
 import os
+import time
 from typing import List
 
 import cv2 as cv
@@ -67,7 +68,10 @@ class EntityDetector(object):
         return self.model.config
 
     def predict(self, image):
+        st = time.time()
         results = self.model.detect([image])
+        et = time.time()
+
         result_dict = results[0]
         r = result_dict
         pred_bboxes = r["rois"]
@@ -94,6 +98,8 @@ class EntityDetector(object):
             )
 
         predictions = {"prediction_list": prediction_list, "orig_img_shape": orig_shape}
+
+        print(f"Found: {num_preds} bboxes in: {et - st:.3f} seconds")
 
         return predictions
 
