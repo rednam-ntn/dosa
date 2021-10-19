@@ -379,12 +379,12 @@ class PaddleOCR(predict_system.TextSystem):
             if dt_boxes is None:
                 return None
 
+            logger.debug("dt_boxes num : {}, elapse : {}".format(len(dt_boxes), elapse))
+            print(f"dt_boxes num : {len(dt_boxes)}, elapse : {elapse}")
+
             # Detect Bitmap only
             if isinstance(dt_boxes, dict) and "maps" in dt_boxes and "shapes" in dt_boxes:
                 return dt_boxes
-
-            logger.debug("dt_boxes num : {}, elapse : {}".format(len(dt_boxes), elapse))
-            print(f"dt_boxes num : {len(dt_boxes)}, elapse : {elapse}")
 
             return [box.tolist() for box in dt_boxes]
         else:

@@ -5,22 +5,27 @@ from io import BytesIO
 
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt, rcParams
 from paddleocr import PaddleOCR
 from PIL import Image
 
 from app.schemas.doc_parser import ImageInput  # , ImageOutput
 from app.util import NumpyEncoder
 
+rcParams["figure.dpi"] = 300
+
+
 ocr_engine = PaddleOCR(
     show_log=False,
     enforce_cpu=True,
     use_gpu=False,
-    use_dilation=True,
-    det_limit_side_len=1600,
+    det_limit_side_len=1920,
     det_limit_type="max",
     det_db_thresh=0.3,
     det_db_box_thresh=0.5,
-    det_db_unclip_ratio=2,
+    det_db_unclip_ratio=1.5,
+    use_dilation=True,
+    det_db_score_mode="slow",
     # det_model_dir="/home/shine/.paddleocr/2.2.1/ocr/det/ch/ch_PP-OCRv2_det_infer",  # Defaults better
     # det_model_dir="/home/shine/.paddleocr/2.2.1/ocr/det/ch/ch_ppocr_server_v2.0_det_infer",
 )
@@ -48,6 +53,9 @@ async def db_detect_bitmap(img_in: ImageInput):
     image = np.asarray(Image.open(BytesIO(base64.b64decode(str.encode(img_in.img_base64)))))
 
     ocr_engine.text_detector.args.det_db_only_bitmap = True
-    results = NumpyEncoder.convert(ocr_engine.ocr(image, rec=False))
-    # json.dump(results, open("results.json", "w"))
-    return results
+    results = ocr_engine.ocr(image, rec=False)
+
+    # pred = results["maps"]
+    # pred = pred[:, 0, :, :]
+    # plt.imsave("bitmap.png", pred[0])
+    return NumpyEncoder.convert(results)
