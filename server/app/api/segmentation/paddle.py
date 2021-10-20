@@ -36,6 +36,10 @@ async def detect_text(img_in: ImageInput):
     image = np.asarray(Image.open(BytesIO(base64.b64decode(str.encode(img_in.img_base64)))))
 
     ocr_engine.text_detector.args.det_db_only_bitmap = False
+    ocr_engine.text_detector.args.det_limit_side_len = 1920
+    ocr_engine.text_detector.args.use_dilation = True
+    ocr_engine.text_detector.args.det_db_score_mode = "slow"
+
     result = ocr_engine.ocr(image, rec=False)
 
     # if result:
@@ -53,9 +57,24 @@ async def db_detect_bitmap(img_in: ImageInput):
     image = np.asarray(Image.open(BytesIO(base64.b64decode(str.encode(img_in.img_base64)))))
 
     ocr_engine.text_detector.args.det_db_only_bitmap = True
+    ocr_engine.text_detector.args.det_limit_side_len = 1920
+    ocr_engine.text_detector.args.use_dilation = True
+    ocr_engine.text_detector.args.det_db_score_mode = "slow"
     results = ocr_engine.ocr(image, rec=False)
 
     # pred = results["maps"]
     # pred = pred[:, 0, :, :]
     # plt.imsave("bitmap.png", pred[0])
     return NumpyEncoder.convert(results)
+
+
+async def detect_text_fast(img_in: ImageInput):
+    # print("Calling `detect_image`")
+    image = np.asarray(Image.open(BytesIO(base64.b64decode(str.encode(img_in.img_base64)))))
+
+    ocr_engine.text_detector.args.det_db_only_bitmap = False
+    ocr_engine.text_detector.args.det_limit_side_len = 960
+    ocr_engine.text_detector.args.use_dilation = False
+    ocr_engine.text_detector.args.det_db_score_mode = "fast"
+    result = ocr_engine.ocr(image, rec=False)
+    return result

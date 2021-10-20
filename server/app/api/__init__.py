@@ -23,3 +23,9 @@ async def paddle_api(*, img_in: ImageInput):
 async def paddle_bitmap_api(*, img_in: ImageInput):
     print("requesting `paddle_bitmap_api`")
     return await paddle.db_detect_bitmap(img_in)
+
+
+@router.post("/detect-text-fast")
+async def paddle_math_api(*, img_in: ImageInput):
+    print("requesting `detect_text_fast`")
+    return await paddle.detect_text_fast(img_in)
