@@ -1,11 +1,10 @@
-from typing import List, Tuple
+from typing import Tuple
 
 from pydantic import BaseModel
 
 
 class ImageInput(BaseModel):
     img_base64: str
-    file_name: str
 
 
 class ImageOutput(BaseModel):
